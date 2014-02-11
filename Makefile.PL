@@ -5,8 +5,10 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME              => 'BTSync::API',
     VERSION_FROM      => 'lib/BTSync/API.pm', # finds $VERSION
-    PREREQ_PM         => {}, # e.g., Module::Name => 1.1
-    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
+    PREREQ_PM         => {
+	 	Mojolicious => '4.59',
+	 }, # e.g., Module::Name => 1.1
+    ($] >= 5.10.1 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/BTSync/API.pm', # retrieve abstract from module
-       AUTHOR         => 'eppler <eppler@(none)>') : ()),
+       AUTHOR         => 'Sven Eppler <sven.eppler@sodgeit.de>') : ()),
 );
