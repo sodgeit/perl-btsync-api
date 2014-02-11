@@ -1,0 +1,6 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/BTSync-API.t
+lib/BTSync/API.pm
