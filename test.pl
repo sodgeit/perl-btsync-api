@@ -10,14 +10,15 @@ use BTSync::API;
 
 use Data::Dumper;
 
+use Mojo::Util qw(b64_encode);
+
+say b64_encode "admin:mypassword2013";
 
 my $api = BTSync::API->new({ host => "localhost", port => 8888, username => "admin", password => "mypassword2013" });
 
 $| = 1;
 
-say Dumper $api->get_prefs;
-
-say Dumper $api->set_prefs({ folder_rescan_interval => 120 });
+say Dumper $api->get_folders("AAHUTMNTZHJFHT2TNPJDQNSZFZZRGAO6R");
 
 exit;
 

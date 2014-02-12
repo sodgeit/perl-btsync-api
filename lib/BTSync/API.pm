@@ -40,6 +40,14 @@ has 'password' => undef;
 
 # Preloaded methods go here.
 
+sub get_files {
+	my $self = shift;
+	my $secret = shift || die "You need to provide a secret to retrieve a file listing!";
+	my $path = shift || undef;
+
+	$self->request('get_files', { secret => $secret, path => $path });
+}
+
 sub get_folders {
 	my $self = shift;
 	my $secret = shift || undef;
@@ -96,12 +104,64 @@ sub get_prefs {
 }
 
 
+sub get_folder_hosts {
+	my $self = shift;
+	my $secret = shift || die "You need to provide a folder secret!";
+
+	$self->request('get_folder_hosts', { secret => $secret });
+}
+
+sub get_folder_prefs {
+	my $self = shift;
+	my $secret = shift || die "You need to provide a folder secret!";
+
+	$self->request('get_folder_prefs', { secret => $secret });
+}
+
+sub get_os {
+	shift->request('get_os');
+}
+
+sub get_version {
+	shift->request('get_version');
+}
+
+
 sub set_prefs {
 	my $self = shift;
 	my $prefs = shift || {};
 
 	$self->request("set_prefs", $prefs);
 }
+
+sub set_folder_prefs {
+	my $self = shift;
+	my $secret = shift || die "You need to provide a folder secret";
+	my %prefs = %{shift}; # get a real copy of the preferences
+
+	$prefs{secret} = $secret;
+
+	$self->request('set_folder_prefs', \%prefs);
+}
+
+sub set_folder_hosts {
+	my $self = shift;
+	my $secret = shift || die "You need t provide a folder secret!";
+	my $host = shift;
+
+	if(ref $host eq "ARRAY") {
+		$host = join(",", @$host);
+	}
+
+	$self->request('set_folder_hosts', { secret => $secret, hosts => $host });
+}
+
+sub shutdown {
+	my $self = shift;
+	$self->request('shutdown');
+}
+
+
 
 sub request {
 	my $self = shift;
@@ -155,53 +215,105 @@ BTSync::API - Perl extension for BitTorrent Sync API
 
 =head1 SYNOPSIS
 
-  use BTSync::API;
-  my $api = BTSync::API->new({ username => "admin", password => "********" });
-  my $secret = $api->add_folder("/home/user/syncdir/");
-
-  foreach my $folder (@{$api->get_folders}) {
-     say 'Syncing folder: ' . $folder->{dir};
-  }
-  
-  $api->remove_folder($secret);
+ use BTSync::API;
+ my $api = BTSync::API->new({ username => "admin", password => "********" });
+ my $api = BTSync::API->new({ host => '192.168.1.2', port => 4711, username => 'admin', password => '*******' });
+ 
+ my $secret = $api->add_folder("/home/user/syncdir/");
+ 
+ foreach my $folder (@{$api->get_folders}) {
+    say 'Syncing folder: ' . $folder->{dir};
+ }
+ 
+ $api->remove_folder($secret);
 
 =head1 DESCRIPTION
+
+B<This module is work in progress. Not all API-Methods are implemented!>
 
 This module makes accessing the BTSync API via perl easy and straight forward.
 
 In order to get API access to your BTSync client, you need to obtain an
-API key first.
+API key first and configure BTSync to allow API access.
+If you get wiered "400 ERROR" repsonses, you most likely forgot to activate the API.
 
-See http://www.bittorrent.com/sync/developers
+See L<http://www.bittorrent.com/sync/developers>
 
-=head2 EXPORT
+=head1 ATTRIBUTES
 
-None by default.
+=head2 username
+
+The username for the API-Access
+
+May be I<undef> if no authentication is needed.
+
+=head2 password
+
+The password for the API-Access.
+
+May be I<undef> if no authentication is needed.
+
+=head2 host
+
+The host to connect to. Defaults to I<localhost>.
+
+=head2 port
+
+The port to connect to. Defaults to I<8888>.
+
+=head2 ua
+
+Internal L<Mojo::UserAgent> object
+
 
 =head1 METHODS
 
 =head2 add_folder
 
+ $new_secret = $api->add_folder("/path/to/folder");
+ $secret = $api->add_folder("/path/to/folder/", $secret);
+ $secret = $api->add_folder("/path/to/folder/", $secret, $selective);
+
+=head2 get_files
+
+ @files = @{$api->get_files($secret)};
+
 =head2 get_folders
+
+ @folders = @{$api->get_folders()};
+ $folder = $api->get_folders($secret);
+
+=head2 get_folder_hosts
+
+ $res = $api->get_folder_hosts($secret);
+ @hosts = @{$res->{hosts}};
 
 =head2 get_prefs
 
+=head2 get_os
+
+ $operatingsystem = $api->get_os();
+
 =head2 get_speed
 
+=head2 get_version
+
+ $version = $api->get_version();
+
 =head2 remove_folder
+
+=head2 set_folder_hosts
+
+ $api->set_folder_hosts($secret, $host);
+ $api->set_folder_hosts($secret, ['host:port', 'host2:port2', 'host3:port3' ]);
 
 =head2 set_prefs
 
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
+This module ist based on the BitTorrent Sync API.
 
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
+Documentation avaiable at L<http://www.bittorrent.com/sync/developers/api>
 
 =head1 AUTHOR
 
