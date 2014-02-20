@@ -17,8 +17,3 @@ BEGIN { use_ok('BTSync::API') };
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-my $btsync = BTSync::API->new();
-
-my $res = $btsync->get_folders();
-print Dumper $res;
-print "Hi There!";

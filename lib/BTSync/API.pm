@@ -137,7 +137,7 @@ sub set_prefs {
 sub set_folder_prefs {
 	my $self = shift;
 	my $secret = shift || die "You need to provide a folder secret";
-	my %prefs = %{shift}; # get a real copy of the preferences
+	my %prefs = %{shift()}; # get a real copy of the preferences
 
 	$prefs{secret} = $secret;
 
