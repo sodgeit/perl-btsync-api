@@ -29,7 +29,7 @@ use Mojo::UserAgent;
 #	
 #);
 #
-#our $VERSION = '0.01';
+our $VERSION = '0.01';
 
 has 'ua' => sub { return Mojo::UserAgent->new(); };
 has 'host' => 'localhost';
