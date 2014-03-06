@@ -5,30 +5,7 @@ use warnings;
 use Mojo::Base -base;
 use Mojo::URL;
 use Mojo::UserAgent;
-#use Mojo::JSON;
 
-#require Exporter;
-#use AutoLoader qw(AUTOLOAD);
-
-#our @ISA = qw(Exporter);
-
-# Items to export into callers namespace by default. Note: do not export
-# names by default without a very good reason. Use EXPORT_OK instead.
-# Do not simply export all your public functions/methods/constants.
-
-# This allows declaration	use BTSync::API ':all';
-# If you do not need this, moving things directly into @EXPORT or @EXPORT_OK
-# will save memory.
-#our %EXPORT_TAGS = ( 'all' => [ qw(
-	
-#) ] );
-#
-#our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-#
-#our @EXPORT = qw(
-#	
-#);
-#
 our $VERSION = '0.02';
 
 has 'ua' => sub { return Mojo::UserAgent->new(); };
@@ -37,8 +14,6 @@ has 'port' => 8888;
 has 'username' => undef;
 has 'password' => undef;
 
-
-# Preloaded methods go here.
 
 sub get_files {
 	my $self = shift;
@@ -73,7 +48,6 @@ sub add_folder {
 			
 			# Clean up the escaped path-string...
 			$dir =~ s/\\//g;
-			say "===> Testing $dir against $folder";
 			if($dir eq $folder) {
 				$new_secret = $f->{secret};
 				last;
@@ -304,14 +278,14 @@ Internal L<Mojo::UserAgent> object
 
 =head2 set_folder_hosts
 
-=head2 shutdown
-
-Shutdown the Bittorrenc Sync client.
-
  $api->set_folder_hosts($secret, $host);
  $api->set_folder_hosts($secret, ['host:port', 'host2:port2', 'host3:port3' ]);
 
 =head2 set_prefs
+
+=head2 shutdown
+
+Shutdown the Bittorrenc Sync client.
 
 =head1 SEE ALSO
 
@@ -321,7 +295,7 @@ Documentation avaiable at L<http://www.bittorrent.com/sync/developers/api>
 
 =head1 AUTHOR
 
-Sven Eppler, sodgeIT GmbH
+Sven Eppler, sodgeIT GmbH, cpan@sveneppler.de
 
 =head1 COPYRIGHT AND LICENSE
 
