@@ -29,7 +29,7 @@ use Mojo::UserAgent;
 #	
 #);
 #
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 has 'ua' => sub { return Mojo::UserAgent->new(); };
 has 'host' => 'localhost';
@@ -303,6 +303,10 @@ Internal L<Mojo::UserAgent> object
 =head2 remove_folder
 
 =head2 set_folder_hosts
+
+=head2 shutdown
+
+Shutdown the Bittorrenc Sync client.
 
  $api->set_folder_hosts($secret, $host);
  $api->set_folder_hosts($secret, ['host:port', 'host2:port2', 'host3:port3' ]);
