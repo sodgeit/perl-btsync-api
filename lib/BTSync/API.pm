@@ -6,7 +6,7 @@ use Mojo::Base -base;
 use Mojo::URL;
 use Mojo::UserAgent;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 has 'ua' => sub { return Mojo::UserAgent->new(); };
 has 'host' => 'localhost';
@@ -55,7 +55,9 @@ sub add_folder {
 		}
 	}
 
-	return $new_secret;
+	$res->{new_secret => $new_secret};
+
+	return $res;
 }
 
 sub remove_folder {
