@@ -195,7 +195,7 @@ BTSync::API - Perl extension for BitTorrent Sync API
  my $api = BTSync::API->new({ username => "admin", password => "********" });
  my $api = BTSync::API->new({ host => '192.168.1.2', port => 4711, username => 'admin', password => '*******' });
  
- my $secret = $api->add_folder("/home/user/syncdir/");
+ my $res = $api->add_folder("/home/user/syncdir/");
  
  foreach my $folder (@{$api->get_folders}) {
     say 'Syncing folder: ' . $folder->{dir};
@@ -246,9 +246,10 @@ Internal L<Mojo::UserAgent> object
 
 =head2 add_folder
 
- $new_secret = $api->add_folder("/path/to/folder");
- $secret = $api->add_folder("/path/to/folder/", $secret);
- $secret = $api->add_folder("/path/to/folder/", $secret, $selective);
+ $res = $api->add_folder("/path/to/folder");
+ $res = $api->add_folder("/path/to/folder/", $secret);
+ $res = $api->add_folder("/path/to/folder/", $secret, $selective);
+ my $new_secret = $res->{new_secret};
 
 =head2 get_files
 
