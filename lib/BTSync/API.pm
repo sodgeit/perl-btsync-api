@@ -55,7 +55,7 @@ sub add_folder {
 		}
 	}
 
-	$res->{new_secret => $new_secret};
+	$res->{new_secret} = $new_secret;
 
 	return $res;
 }
