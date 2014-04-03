@@ -6,7 +6,7 @@ use Mojo::Base -base;
 use Mojo::URL;
 use Mojo::UserAgent;
 
-our $VERSION = '0.04';
+our $VERSION = '0.06';
 
 has 'ua' => sub { return Mojo::UserAgent->new(); };
 has 'host' => 'localhost';
@@ -39,7 +39,7 @@ sub add_folder {
 	
 	my $new_secret = undef;
 
-	if($res->{result} == 0) {
+	if(exists($res->{result}) && $res->{result} == 0) {
 		foreach my $f (@{$self->get_folders()}) {
 			my $dir = $f->{dir};
 			if($dir !~ m!/$!) {
@@ -159,8 +159,7 @@ sub request {
 
 	if(!$tx->success) {
 		my ($msg, $code) = $tx->error;
-		die "HTTP-Error: $code $msg";
-		return { error => $code, message => $msg };
+		return { error => ($code||500), message => $msg };
 	}
 	else {
 		return $tx->res->json;
