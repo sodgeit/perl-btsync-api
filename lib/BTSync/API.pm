@@ -6,7 +6,7 @@ use Mojo::Base -base;
 use Mojo::URL;
 use Mojo::UserAgent;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 has 'ua' => sub { return Mojo::UserAgent->new(); };
 has 'host' => 'localhost';
@@ -160,9 +160,11 @@ sub request {
 	if(!$tx->success) {
 		my ($msg, $code) = $tx->error;
 		die "HTTP-Error: $code $msg";
+		return { error => $code, message => $msg };
 	}
-
-	return $tx->res->json;
+	else {
+		return $tx->res->json;
+	}
 }
 
 sub mk_url {
