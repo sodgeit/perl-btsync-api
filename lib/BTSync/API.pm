@@ -159,7 +159,7 @@ sub request {
 
 	if(!$tx->success) {
 		my ($msg, $code) = $tx->error;
-		return { error => ($code||500), message => $msg };
+		return { error => ($code||500), message => "Communication Error: " . $msg };
 	}
 	else {
 		return $tx->res->json;
