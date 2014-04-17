@@ -29,6 +29,13 @@ sub get_folders {
 	$self->request('get_folders',{ secret => $secret });
 }
 
+sub get_folder_peers {
+	my $self = shift;
+	my $secret = shift || die "You need to provide a secret to retrieve the peers!";
+
+	$self->request('get_folder_peers', { secret => $secret });
+}
+
 sub add_folder {
 	my $self = shift;
 	my $folder = shift;
