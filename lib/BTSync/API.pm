@@ -6,7 +6,7 @@ use Mojo::Base -base;
 use Mojo::URL;
 use Mojo::UserAgent;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 has 'ua' => sub { return Mojo::UserAgent->new(); };
 has 'host' => 'localhost';
