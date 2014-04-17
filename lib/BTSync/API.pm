@@ -268,6 +268,12 @@ Internal L<Mojo::UserAgent> object
  @folders = @{$api->get_folders()};
  $folder = $api->get_folders($secret);
 
+=head2 get_folder_peers
+
+ $peers = $api->get_folder_peers($secret);
+
+Return an array reference to all known peers for the folder identified by the given secret.
+
 =head2 get_folder_hosts
 
  $res = $api->get_folder_hosts($secret);
