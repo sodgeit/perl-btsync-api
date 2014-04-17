@@ -6,7 +6,7 @@ use Mojo::Base -base;
 use Mojo::URL;
 use Mojo::UserAgent;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 has 'ua' => sub { return Mojo::UserAgent->new(); };
 has 'host' => 'localhost';
@@ -27,6 +27,13 @@ sub get_folders {
 	my $self = shift;
 	my $secret = shift || undef;
 	$self->request('get_folders',{ secret => $secret });
+}
+
+sub get_folder_peers {
+	my $self = shift;
+	my $secret = shift || die "You need to provide a secret to retrieve the peers!";
+
+	$self->request('get_folder_peers', { secret => $secret });
 }
 
 sub add_folder {
@@ -260,6 +267,12 @@ Internal L<Mojo::UserAgent> object
 
  @folders = @{$api->get_folders()};
  $folder = $api->get_folders($secret);
+
+=head2 get_folder_peers
+
+ $peers = $api->get_folder_peers($secret);
+
+Return an array reference to all known peers for the folder identified by the given secret.
 
 =head2 get_folder_hosts
 
